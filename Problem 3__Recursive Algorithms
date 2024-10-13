@@ -1,0 +1,43 @@
+#include <iostream>
+using namespace std;
+
+// Recursive function to solve Tower of Hanoi
+void towerOfHanoi(int N, char source, char destination, char buffer, int &moveCount) {
+    // Base case: only one disc to move
+    if (N == 1) {
+        cout << "Step " << moveCount + 1 << ": Move disc 1 from " << source << " to " << destination << endl;
+        moveCount++;
+        return;
+    }
+    
+    // Step 1: Move the top N-1 discs from the source to the buffer
+    towerOfHanoi(N - 1, source, buffer, destination, moveCount);
+    
+    // Step 2: Move the largest disc (Nth disc) from the source to the destination
+    cout << "Step " << moveCount + 1 << ": Move disc " << N << " from " << source << " to " << destination << endl;
+    moveCount++;
+    
+    // Step 3: Move the N-1 discs from the buffer to the destination
+    towerOfHanoi(N - 1, buffer, destination, source, moveCount);
+}
+
+int main() {
+    int N; // Number of discs
+    cout << "Welcome to the Tower of Hanoi Solver!" << endl;
+    cout << "=================================================" <<endl;
+    cout << "Enter the number of packages (discs): ";
+    cin >> N;
+
+    int moveCount = 0; // Counter for total moves
+    cout << "\nThe sequence of moves to transfer " << N << " discs from rod A to rod C is as follows:\n" << endl;
+
+    // Start the Tower of Hanoi process
+    towerOfHanoi(N, 'A', 'C', 'B', moveCount);
+
+    // Display the total number of moves required
+    cout << "\nTotal moves required to transfer " << N << " discs: " << moveCount << endl;
+    cout<<"========================================================================" <<endl;
+    cout << "Thank you for using the Tower of Hanoi Solver!" << endl;
+
+    return 0;
+}
