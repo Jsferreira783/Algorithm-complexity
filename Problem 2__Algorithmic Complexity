@@ -1,3 +1,8 @@
+Name: Jessica Alen Da silva Henriques Ferreira
+BCS32
+//===================Laboratory Exam=====================================
+//============Problem 2 Algorithm Complexity=============================
+
 #include <iostream>
 #include <vector>
 #include <chrono>
@@ -5,88 +10,104 @@
 using namespace std;
 using namespace std::chrono;
 
-// Bubble Sort function
+// Bubble Sort function to sort an array
 void bubbleSort(vector<int>& arr) {
-    int n = arr.size();
-    for (int i = 0; i < n-1; i++) {
-        for (int j = 0; j < n-i-1; j++) {
-            if (arr[j] > arr[j+1]) {
-                swap(arr[j], arr[j+1]);
+    int n = arr.size(); // Get the size of the array
+    // Outer loop for each element in the array
+    for (int i = 0; i < n - 1; i++) {
+        // Inner loop to compare adjacent elements
+        for (int j = 0; j < n - i - 1; j++) {
+            // If the current element is greater than the next one, swap them
+            if (arr[j] > arr[j + 1]) {
+                swap(arr[j], arr[j + 1]);
             }
         }
     }
 }
 
-// Merge function for Merge Sort
+// Merge function to combine two sorted halves of an array
 void merge(vector<int>& arr, int left, int mid, int right) {
-    int n1 = mid - left + 1;
-    int n2 = right - mid;
+    int n1 = mid - left + 1; // Size of left half
+    int n2 = right - mid;    // Size of right half
     
+    // Create temporary arrays for left and right halves
     vector<int> L(n1), R(n2);
+    
+    // Copy data to temporary arrays L[] and R[]
     for (int i = 0; i < n1; i++) L[i] = arr[left + i];
     for (int i = 0; i < n2; i++) R[i] = arr[mid + 1 + i];
     
-    int i = 0, j = 0, k = left;
+    int i = 0, j = 0, k = left; // Initialize indices for L, R, and arr
+    // Merge the temporary arrays back into arr[]
     while (i < n1 && j < n2) {
         if (L[i] <= R[j]) {
-            arr[k++] = L[i++];
+            arr[k++] = L[i++]; // If L[i] is smaller, put it in arr
         } else {
-            arr[k++] = R[j++];
+            arr[k++] = R[j++]; // If R[j] is smaller, put it in arr
         }
     }
+    // Copy any remaining elements of L[], if there are any
     while (i < n1) arr[k++] = L[i++];
+    // Copy any remaining elements of R[], if there are any
     while (j < n2) arr[k++] = R[j++];
 }
 
-// Merge Sort function
+// Merge Sort function to sort an array using divide-and-conquer
 void mergeSort(vector<int>& arr, int left, int right) {
+    // Base case: if the array has one or no elements
     if (left >= right) return;
-    int mid = left + (right - left) / 2;
+    
+    int mid = left + (right - left) / 2; // Calculate mid index
+    // Recursively sort the first half
     mergeSort(arr, left, mid);
+    // Recursively sort the second half
     mergeSort(arr, mid + 1, right);
+    // Merge the two halves
     merge(arr, left, mid, right);
 }
 
 int main() {
     int N;
-    cout << "Enter number of delivery times: ";
+    cout << "Enter number of delivery times: "; // Prompt user for the number of delivery times
     cin >> N;
 
-    vector<int> deliveryTimes(N);
-    cout << "Enter the delivery times (in minutes):\n";
+    vector<int> deliveryTimes(N); // Create a vector to store the delivery times
+    cout << "Enter the delivery times (in minutes):\n"; // Prompt user for delivery times
     for (int i = 0; i < N; i++) {
-        cin >> deliveryTimes[i];
+        cin >> deliveryTimes[i]; // Store each delivery time in the vector
     }
 
     // Bubble Sort
-    vector<int> bubbleSortedTimes = deliveryTimes;
-    auto start = high_resolution_clock::now();
-    bubbleSort(bubbleSortedTimes);
-    auto end = high_resolution_clock::now();
-    auto bubbleDuration = duration_cast<microseconds>(end - start);
+    vector<int> bubbleSortedTimes = deliveryTimes; // Create a copy of the delivery times for Bubble Sort
+    auto start = high_resolution_clock::now(); // Start timing the Bubble Sort
+    bubbleSort(bubbleSortedTimes); // Perform Bubble Sort
+    auto end = high_resolution_clock::now(); // End timing the Bubble Sort
+    auto bubbleDuration = duration_cast<microseconds>(end - start); // Calculate duration in microseconds
 
+    // Output results for Bubble Sort
     cout << "Sorted delivery times using Bubble Sort: ";
     for (int time : bubbleSortedTimes) {
-        cout << time << " ";
+        cout << time << " "; // Print each sorted delivery time
     }
     cout << endl;
-    cout << "Bubble Sort Time: " << bubbleDuration.count() << " microseconds\n";
-    cout << "Bubble Sort Time Complexity: O(N^2)\n";
+    cout << "Bubble Sort Time: " << bubbleDuration.count() << " microseconds\n"; // Print timing result
+    cout << "Bubble Sort Time Complexity: O(N^2)\n"; // Print time complexity of Bubble Sort
 
     // Merge Sort
-    vector<int> mergeSortedTimes = deliveryTimes;
-    start = high_resolution_clock::now();
-    mergeSort(mergeSortedTimes, 0, N - 1);
-    end = high_resolution_clock::now();
-    auto mergeDuration = duration_cast<microseconds>(end - start);
+    vector<int> mergeSortedTimes = deliveryTimes; // Create a copy of the delivery times for Merge Sort
+    start = high_resolution_clock::now(); // Start timing the Merge Sort
+    mergeSort(mergeSortedTimes, 0, N - 1); // Perform Merge Sort
+    end = high_resolution_clock::now(); // End timing the Merge Sort
+    auto mergeDuration = duration_cast<microseconds>(end - start); // Calculate duration in microseconds
 
+    // Output results for Merge Sort
     cout << "Sorted delivery times using Merge Sort: ";
     for (int time : mergeSortedTimes) {
-        cout << time << " ";
+        cout << time << " "; // Print each sorted delivery time
     }
     cout << endl;
-    cout << "Merge Sort Time: " << mergeDuration.count() << " microseconds\n";
-    cout << "Merge Sort Time Complexity: O(N log N)\n";
+    cout << "Merge Sort Time: " << mergeDuration.count() << " microseconds\n"; // Print timing result
+    cout << "Merge Sort Time Complexity: O(N log N)\n"; // Print time complexity of Merge Sort
 
-    return 0;
+    return 0; // End of the program
 }
