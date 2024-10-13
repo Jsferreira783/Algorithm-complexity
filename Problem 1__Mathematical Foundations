@@ -1,0 +1,47 @@
+#include <iostream>
+#include <cmath>
+#include <vector>
+
+using namespace std;
+
+// Function to calculate the distance between two points
+double distanceBetweenPoints(double x1, double y1, double x2, double y2) {
+    return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+}
+
+// Function to calculate total distance for a sequence of delivery points
+double totalDistance(const vector<pair<double, double>>& points) {
+    double totalDist = 0.0;
+    for (size_t i = 1; i < points.size(); ++i) {
+        totalDist += distanceBetweenPoints(points[i-1].first, points[i-1].second, points[i].first, points[i].second);
+    }
+    return totalDist;
+}
+
+// Function to calculate the sum of the first N natural numbers
+int sumOfNaturalNumbers(int N) {
+    return (N * (N + 1)) / 2;
+}
+
+int main() {
+    // Input: number of points N and the points (x, y) coordinates
+    int N;
+    cout << "Enter the number of delivery points: ";
+    cin >> N;
+
+    vector<pair<double, double>> points(N);
+    for (int i = 0; i < N; ++i) {
+        cout << "Enter the coordinates of point " << i + 1 << " (x y): ";
+        cin >> points[i].first >> points[i].second;
+    }
+
+    // Calculate the total distance between the points
+    double totalDist = totalDistance(points);
+    cout << "Total distance traveled: " << totalDist << endl;
+
+    // Calculate the sum of the first N natural numbers
+    int sumN = sumOfNaturalNumbers(N);
+    cout << "Sum of the first " << N << " natural numbers: " << sumN << endl;
+
+    return 0;
+}
